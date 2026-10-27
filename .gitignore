@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+submission/*.zip
+.DS_Store
+*.log
+gcp-key*.json
+*service-account*.json
