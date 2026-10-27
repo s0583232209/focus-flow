@@ -1,0 +1,6 @@
+---
+description: Git workflow for branches, commits and PRs
+alwaysApply: true
+---
+
+Always follow @GIT_WORKFLOW.md for branches, commits and PRs. Task IDs are in @TASKS.md.
