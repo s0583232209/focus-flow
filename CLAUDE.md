@@ -1,0 +1,28 @@
+@GIT_WORKFLOW.md
+@TASKS.md
+
+# Project rules
+
+## Architecture
+- Project: FocusFlow-style attention site.
+- Locally: 3 containers — frontend (nginx, port 3000), backend (FastAPI, port 8000), mongodb.
+- In the cloud (assignment 4): the same images run on Google Cloud Run behind one HTTPS Load Balancer. `/api/*` and `/health` go to the backend, everything else to the frontend. Database in the cloud: MongoDB Atlas.
+
+## Backend
+- Python 3.12, FastAPI, PyMongo async (`AsyncMongoClient`), Pydantic v2, pydantic-settings, bcrypt (library, cost 12), PyJWT HS256.
+- `GET /health` (no `/api` prefix) -> 200 `{"status":"ok"}` only if Mongo ping works, else 503.
+- All other routes start with `/api`. Every error is JSON `{"message": "..."}` with 400/401/404/409/422/429.
+- IDs are strings named `"id"`. Datetimes are UTC ISO 8601 with `"Z"`.
+- Passwords are never returned or logged. Every user-data query filters by `owner_id` from the JWT, never from the body. Another user's resource -> 404.
+- The backend keeps NO state in memory (no dicts for sessions, tokens, rate limits) because the cloud runs several instances. Use MongoDB.
+- All config and secrets come from environment variables via `app/config.py`. Never hardcode secrets or URLs.
+
+## Frontend
+- React + Vite + React Router, JavaScript, Hebrew UI, `dir="rtl"`.
+- API base URL comes from `window.__APP_CONFIG__.API_URL`. It may be the EMPTY string in the cloud (= same-origin), so use `??`, not `||`.
+- All requests go through `src/api/client.js` (Bearer token, redirect to `/login` on 401).
+- Every button has visible text. Every action shows loading/success/error. No `dangerouslySetInnerHTML`.
+- Camera video and face landmarks never leave the browser; only score and position are sent.
+
+## General
+- Keep changes small and focused on the current task; do not touch files of other tasks without saying so.
