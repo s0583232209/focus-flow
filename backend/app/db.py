@@ -2,8 +2,6 @@ from typing import AsyncGenerator
 
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
-from app.config import get_settings
-
 # Module-level client — set during lifespan, cleared on shutdown
 _client: AsyncIOMotorClient | None = None
 _db: AsyncIOMotorDatabase | None = None
@@ -25,6 +23,7 @@ async def create_indexes(db: AsyncIOMotorDatabase) -> None:
 async def connect_db() -> None:
     """Open the MongoDB connection and create indexes."""
     global _client, _db
+    from app.config import get_settings  # imported here so env vars are already set
     settings = get_settings()
     _client = AsyncIOMotorClient(
         settings.MONGO_URL,
