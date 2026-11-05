@@ -6,11 +6,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    MONGO_URL: str = "mongodb://localhost:27017"
+    MONGO_URL: str
     MONGO_DB: str = "focusflow"
     JWT_SECRET: str
     JWT_EXPIRE_MINUTES: int = 60
-    CORS_ORIGINS: str = "http://localhost:3000"
+    CORS_ORIGINS: str
     GEMINI_API_KEY: str = ""
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
