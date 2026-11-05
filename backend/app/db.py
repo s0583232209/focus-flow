@@ -23,6 +23,8 @@ async def create_indexes(db: AsyncIOMotorDatabase) -> None:
 async def connect_db() -> None:
     """Open the MongoDB connection and create indexes."""
     global _client, _db
+    if _db is not None:
+        return  # already connected (e.g. called twice in tests)
     from app.config import get_settings  # imported here so env vars are already set
     settings = get_settings()
     _client = AsyncIOMotorClient(
