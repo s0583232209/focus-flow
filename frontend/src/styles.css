@@ -456,3 +456,8 @@ th {
   max-width: 640px;
   direction: ltr;
 }
+
+/* Profile */
+.danger-zone {
+  border: 2px solid var(--color-danger);
+}

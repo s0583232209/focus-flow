@@ -7,20 +7,13 @@ import History from "./pages/History.jsx";
 import Library from "./pages/Library.jsx";
 import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Profile from "./pages/Profile.jsx";
 import Register from "./pages/Register.jsx";
 import SessionDetail from "./pages/SessionDetail.jsx";
 import Watch from "./pages/Watch.jsx";
 
 // Dev-only measurement page; left out of the production build.
 const Lab = import.meta.env.DEV ? lazy(() => import("./pages/Lab.jsx")) : null;
-
-function Placeholder({ title }) {
-  return (
-    <main className="container">
-      <h1>{title}</h1>
-    </main>
-  );
-}
 
 export default function App() {
   return (
@@ -35,7 +28,7 @@ export default function App() {
               <Route path="/content/:id" element={<Watch />} />
               <Route path="/history" element={<History />} />
               <Route path="/history/:id" element={<SessionDetail />} />
-              <Route path="/profile" element={<Placeholder title="הפרופיל שלי" />} />
+              <Route path="/profile" element={<Profile />} />
             </Route>
           </Route>
           {Lab && (
