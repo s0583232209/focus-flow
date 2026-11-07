@@ -2,6 +2,9 @@
 # Shell scripts and the nginx config run inside Linux containers: always LF.
 *.sh text eol=lf
 *.conf text eol=lf
+# Env files: a stray CR would become part of a value.
+.env.example text eol=lf
+.env.template text eol=lf
 *.onnx binary
 *.task binary
 *.pdf binary

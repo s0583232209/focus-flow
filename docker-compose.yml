@@ -1,0 +1,55 @@
+# The submitted file: it pulls ready images, so it needs only this file and .env.
+# DOCKER_USER comes from the .env next to this file.
+services:
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    image: ${DOCKER_USER:?DOCKER_USER is missing from .env}/focusflow-backend:v1
+    platform: linux/amd64
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=4)"
+      interval: 10s
+      timeout: 6s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    image: ${DOCKER_USER:?DOCKER_USER is missing from .env}/focusflow-frontend:v1
+    platform: linux/amd64
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file: .env
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  mongo_data:
