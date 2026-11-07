@@ -52,6 +52,10 @@ def create_app() -> FastAPI:
 
     # ── Routes ──────────────────────────────────────────────────────────────
 
+    from app.routers import auth  # noqa: PLC0415
+
+    app.include_router(auth.router)
+
     @app.get("/health", tags=["ops"])
     async def health():
         """Liveness + readiness probe. Returns 200 only when MongoDB is reachable."""
