@@ -34,13 +34,13 @@ def test_db_name() -> str:
 @pytest_asyncio.fixture
 async def client(test_db_name):
     """
-    Per-test AsyncClient with a live DB connection.
+    Per-test AsyncClient with a live DB connection and an empty test database.
 
-    Connects app.db directly (so the same _db is visible to routes),
-    runs the test, then disconnects. Using function scope avoids
-    cross-event-loop issues with Motor in pytest-asyncio 0.24.
+    Connects app.db directly (so the same _db is visible to routes), runs the
+    test, drops the test database and disconnects. Function scope avoids
+    cross-event-loop issues with the async Mongo client in pytest-asyncio.
     """
-    # Connect the app DB on this test's event loop
+    assert test_db_name.endswith("_test")
     await db_module.connect_db()
 
     try:
@@ -49,4 +49,11 @@ async def client(test_db_name):
         ) as ac:
             yield ac
     finally:
+        await db_module._client.drop_database(test_db_name)
         await db_module.close_db()
+
+
+@pytest_asyncio.fixture
+async def db(client):
+    """The live test database, for tests that look at what was stored."""
+    return db_module._db
