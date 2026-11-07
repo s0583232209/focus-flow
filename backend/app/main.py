@@ -52,9 +52,10 @@ def create_app() -> FastAPI:
 
     # ── Routes ──────────────────────────────────────────────────────────────
 
-    from app.routers import auth  # noqa: PLC0415
+    from app.routers import auth, users  # noqa: PLC0415
 
     app.include_router(auth.router)
+    app.include_router(users.router)
 
     @app.get("/health", tags=["ops"])
     async def health():

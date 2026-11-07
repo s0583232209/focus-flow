@@ -1,11 +1,12 @@
 import asyncio
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from pymongo.asynchronous.database import AsyncDatabase
 from pymongo.errors import DuplicateKeyError
 
 from app.db import get_db
+from app.deps import CurrentUser, get_current_user
 from app.schemas.users import LoginIn, RegisterIn
 from app.security import (
     create_access_token,
@@ -76,3 +77,14 @@ async def login(body: LoginIn, db: AsyncDatabase = Depends(get_db)):
     await db.login_attempts.delete_many({"email_lower": email_lower})
     token, expires_in = create_access_token(str(user["_id"]), user["token_version"])
     return {"access_token": token, "token_type": "bearer", "expires_in": expires_in}
+
+
+@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+async def logout(current: CurrentUser = Depends(get_current_user), db: AsyncDatabase = Depends(get_db)):
+    """A JWT cannot be recalled, so its jti is kept on a revoked list until it expires anyway."""
+    expires_at = datetime.fromtimestamp(current.claims["exp"], tz=timezone.utc)
+    try:
+        await db.revoked_tokens.insert_one({"jti": current.claims["jti"], "expires_at": expires_at})
+    except DuplicateKeyError:
+        pass  # logged out twice at the same moment
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
