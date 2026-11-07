@@ -175,3 +175,47 @@ a {
   background: var(--color-surface);
   margin-bottom: 16px;
 }
+
+/* Site header */
+.site-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 8px 16px;
+}
+
+.brand {
+  font-size: 18px;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  flex: 1;
+}
+
+.site-nav a {
+  padding: 8px 4px;
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+}
+
+.site-nav a.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.site-user {
+  color: var(--color-muted);
+}
