@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "re
 
 const API_SRC = "https://www.youtube.com/iframe_api";
 const API_TIMEOUT_MS = 15_000;
+const READY_TIMEOUT_MS = 20_000;
 
 let apiPromise = null;
 
@@ -61,6 +62,11 @@ const YouTubePlayer = forwardRef(function YouTubePlayer({ videoId }, ref) {
   useEffect(() => {
     let cancelled = false;
     setState("loading");
+    // The API can load while the iframe itself is blocked by a network filter or an
+    // extension; onReady then never fires, so the "loading" text must not stay forever.
+    const readyTimer = setTimeout(() => {
+      if (!cancelled) setState("error");
+    }, READY_TIMEOUT_MS);
     // YT.Player replaces the element it gets, so React keeps only the parent.
     const target = document.createElement("div");
     hostRef.current.appendChild(target);
@@ -72,20 +78,23 @@ const YouTubePlayer = forwardRef(function YouTubePlayer({ videoId }, ref) {
           videoId,
           width: "100%",
           height: "100%",
-          playerVars: { rel: 0, modestbranding: 1 },
+          playerVars: { rel: 0, modestbranding: 1, origin: window.location.origin },
           events: {
             onReady: () => {
+              clearTimeout(readyTimer);
               if (!cancelled) setState("ready");
             },
           },
         });
       })
       .catch(() => {
+        clearTimeout(readyTimer);
         if (!cancelled) setState("error");
       });
 
     return () => {
       cancelled = true;
+      clearTimeout(readyTimer);
       playerRef.current?.destroy?.();
       playerRef.current = null;
       target.remove();
