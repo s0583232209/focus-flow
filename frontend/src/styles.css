@@ -395,3 +395,21 @@ a {
   line-height: 1.8;
   overflow-wrap: anywhere;
 }
+
+/* Watch page */
+.watch-title {
+  overflow-wrap: anywhere;
+}
+
+.watch-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 899px) {
+  .watch-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

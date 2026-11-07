@@ -97,5 +97,14 @@ export const postReading = (id, reading) =>
   apiFetch(`/api/sessions/${encodeURIComponent(id)}/readings`, { method: "POST", body: reading });
 export const endSession = (id) =>
   apiFetch(`/api/sessions/${encodeURIComponent(id)}/end`, { method: "POST" });
+// For a page that is going away: keepalive lets the request finish after the page is gone.
+export function endSessionOnLeave(id) {
+  const token = getToken();
+  fetch(`${API_URL}/api/sessions/${encodeURIComponent(id)}/end`, {
+    method: "POST",
+    keepalive: true,
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  }).catch(() => {});
+}
 export const listSessions = () => apiFetch("/api/sessions");
 export const getSession = (id) => apiFetch(`/api/sessions/${encodeURIComponent(id)}`);
