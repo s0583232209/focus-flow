@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import Layout from "./components/Layout.jsx";
+import Library from "./pages/Library.jsx";
 import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Register from "./pages/Register.jsx";
@@ -23,7 +24,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route element={<ProtectedRoute />}>
             <Route element={<Layout />}>
-              <Route path="/library" element={<Placeholder title="הספרייה שלי" />} />
+              <Route path="/library" element={<Library />} />
               <Route path="/content/:id" element={<Placeholder title="צפייה" />} />
               <Route path="/history" element={<Placeholder title="היסטוריית סשנים" />} />
               <Route path="/history/:id" element={<Placeholder title="פרטי סשן" />} />

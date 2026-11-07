@@ -219,3 +219,64 @@ a {
 .site-user {
   color: var(--color-muted);
 }
+
+/* Library */
+.radio-group {
+  border: 0;
+  padding: 0;
+}
+
+.radio-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-inline-end: 20px;
+  font-weight: 400;
+}
+
+.radio-group input {
+  min-height: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.content-card {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-card h3 {
+  margin-top: 12px;
+  overflow-wrap: anywhere;
+}
+
+.content-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #e4e4e7;
+}
+
+.content-thumb-text {
+  padding: 12px;
+  overflow: hidden;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
