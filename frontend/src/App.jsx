@@ -3,10 +3,12 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import Layout from "./components/Layout.jsx";
+import History from "./pages/History.jsx";
 import Library from "./pages/Library.jsx";
 import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Register from "./pages/Register.jsx";
+import SessionDetail from "./pages/SessionDetail.jsx";
 import Watch from "./pages/Watch.jsx";
 
 // Dev-only measurement page; left out of the production build.
@@ -31,8 +33,8 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/library" element={<Library />} />
               <Route path="/content/:id" element={<Watch />} />
-              <Route path="/history" element={<Placeholder title="היסטוריית סשנים" />} />
-              <Route path="/history/:id" element={<Placeholder title="פרטי סשן" />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/history/:id" element={<SessionDetail />} />
               <Route path="/profile" element={<Placeholder title="הפרופיל שלי" />} />
             </Route>
           </Route>

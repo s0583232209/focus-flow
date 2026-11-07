@@ -413,3 +413,46 @@ a {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Tables and chart */
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+}
+
+th,
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+  text-align: start;
+}
+
+th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cell-title {
+  overflow-wrap: anywhere;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.score-chart {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  direction: ltr;
+}
