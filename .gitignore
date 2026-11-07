@@ -12,3 +12,5 @@ submission/*.zip
 *.log
 gcp-key*.json
 *service-account*.json
+# Personal compose override, see scripts/local-ca-base-images.sh
+docker-compose.local.yml
