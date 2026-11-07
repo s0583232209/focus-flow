@@ -11,7 +11,9 @@ logger = logging.getLogger(__name__)
 
 async def http_exception_handler(request: Request, exc: StarletteHTTPException) -> JSONResponse:
     """Return every HTTP error as {"message": str}."""
-    if exc.status_code == 404:
+    # Starlette's own 404 for unknown routes has the detail "Not Found"; a route's own
+    # detail ("Content not found") must get through.
+    if exc.status_code == 404 and exc.detail == "Not Found":
         return JSONResponse(status_code=404, content={"message": "Not found"})
     message = exc.detail if isinstance(exc.detail, str) else str(exc.detail)
     return JSONResponse(status_code=exc.status_code, content={"message": message})
