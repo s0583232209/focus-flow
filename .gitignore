@@ -1,17 +1,29 @@
+# קבצים ותיקיות שגיט מתעלם מהם – לא ייכנסו לריפו.
+# קובצי סודות מקומיים
 .env
 .env.*
+# ! = חריג: את הדוגמאות (בלי סודות) כן שומרים
 !.env.example
 !submission/.env.template
+# ספריות Node – מותקנות מחדש עם npm ci
 node_modules/
+# תוצאת בנייה של הלקוח
 dist/
+# קבצי פייתון מהודרים
 __pycache__/
 *.pyc
+# סביבה וירטואלית של פייתון
 .venv/
+# cache של pytest
 .pytest_cache/
+# קובץ ההגשה הארוז (נבנה מחדש בכל פעם)
 submission/*.zip
+# קובץ מערכת של macOS
 .DS_Store
+# קבצי לוג
 *.log
+# מפתחות של חשבון שירות ב-Google Cloud – סוד!
 gcp-key*.json
 *service-account*.json
-# Personal compose override, see scripts/local-ca-base-images.sh
+# קובץ compose אישי, ראו scripts/local-ca-base-images.sh
 docker-compose.local.yml

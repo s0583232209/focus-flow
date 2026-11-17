@@ -1,13 +1,20 @@
 <!doctype html>
+<!-- lang="he" – השפה עברית; dir="rtl" – כל הדף מימין לשמאל -->
 <html lang="he" dir="rtl">
   <head>
+    <!-- קידוד תווים, כדי שעברית תוצג נכון -->
     <meta charset="UTF-8" />
+    <!-- התאמה לרוחב המסך בטלפון (בלי זה הדף מוקטן) -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- שם הלשונית בדפדפן -->
     <title>FocusFlow – מדידת ריכוז</title>
+    <!-- נטען לפני האפליקציה: מגדיר את window.__APP_CONFIG__ (כתובת השרת). בקונטיינר נכתב מחדש בכל הפעלה -->
     <script src="/config.js"></script>
   </head>
   <body>
+    <!-- כאן React מצייר את כל האפליקציה -->
     <div id="root"></div>
+    <!-- קוד האפליקציה; type="module" מאפשר import. Vite מחליף את השורה בקובץ הבנוי -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

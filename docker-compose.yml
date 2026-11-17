@@ -1,10 +1,15 @@
-# The submitted file: it pulls ready images, so it needs only this file and .env.
-# DOCKER_USER comes from the .env next to this file.
+# הקובץ שמוגש לבודק: הוא מושך תמונות מוכנות מ-Docker Hub (image ולא build),
+# ולכן צריך רק את הקובץ הזה ואת .env – בלי קוד.
+# DOCKER_USER מגיע מקובץ ה-.env שליד הקובץ הזה.
 services:
+  # ── מסד הנתונים ──
   mongodb:
     image: mongo:7
+    # מופעל מחדש אוטומטית אם נפל, אלא אם עצרו אותו ידנית
     restart: unless-stopped
+    # בכוונה אין ports: המסד נגיש רק לקונטיינרים האחרים, לא מבחוץ
     volumes:
+      # הנתונים נשמרים גם אחרי down/up
       - mongo_data:/data/db
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
@@ -13,8 +18,11 @@ services:
       retries: 5
       start_period: 10s
 
+  # ── השרת ──
   backend:
+    # ${VAR:?הודעה} – אם DOCKER_USER חסר, compose נעצר עם ההודעה במקום למשוך תמונה לא נכונה
     image: ${DOCKER_USER:?DOCKER_USER is missing from .env}/focusflow-backend:v1
+    # התמונה נבנתה ל-amd64; זה מבטיח שגם במחשב Mac עם שבב Apple היא תרוץ (באמולציה)
     platform: linux/amd64
     restart: unless-stopped
     ports:
@@ -34,16 +42,20 @@ services:
       retries: 5
       start_period: 10s
 
+  # ── הלקוח ──
   frontend:
     image: ${DOCKER_USER:?DOCKER_USER is missing from .env}/focusflow-frontend:v1
     platform: linux/amd64
     restart: unless-stopped
     ports:
       - "3000:3000"
+    # משם מגיע API_URL שנכתב ל-config.js
     env_file: .env
     depends_on:
       backend:
+        # הלקוח עולה רק אחרי שהשרת תקין
         condition: service_healthy
+    # בדיקת תקינות: wget (קיים בתמונת nginx:alpine) בודק שהדף הראשי עונה
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3000/"]
       interval: 10s

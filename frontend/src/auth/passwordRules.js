@@ -1,9 +1,13 @@
-// Same rules as the server, checked first so the user does not wait for an answer.
-export const PASSWORD_HINT = "לפחות 8 תווים, כולל אות וספרה";
+// אותם כללי סיסמה כמו בשרת, נבדקים קודם בדפדפן כדי שהמשתמש לא יחכה לתשובה מהשרת.
+// (השרת בודק שוב בכל מקרה – אסור לסמוך רק על בדיקה בדפדפן.)
+export const PASSWORD_HINT = "לפחות 8 תווים, כולל אות וספרה"; // הטקסט שמוצג מתחת לשדה הסיסמה
 
+// מחזירה הודעת שגיאה בעברית, או null אם הסיסמה תקינה
 export function checkPassword(password) {
   if (password.length < 8) return "הסיסמה קצרה מדי: לפחות 8 תווים";
+  // \p{L} = כל אות בכל שפה (גם עברית); הדגל u מפעיל תמיכה ב-Unicode
   if (!/\p{L}/u.test(password)) return "הסיסמה חייבת לכלול לפחות אות אחת";
+  // \p{Nd} = כל ספרה
   if (!/\p{Nd}/u.test(password)) return "הסיסמה חייבת לכלול לפחות ספרה אחת";
-  return null;
+  return null; // הכל תקין
 }

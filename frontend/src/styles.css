@@ -1,85 +1,99 @@
+/* קובץ העיצוב הכללי של האתר. */
+
+/* משתני צבע (CSS variables): מוגדרים פעם אחת כאן ומשמשים בכל הקובץ עם var(--שם).
+   :root = האלמנט העליון בדף, כך שהמשתנים זמינים בכל מקום */
 :root {
-  --color-text: #1a1a1a;
-  --color-muted: #52525b;
-  --color-bg: #fafafa;
-  --color-surface: #ffffff;
-  --color-border: #d4d4d8;
-  --color-primary: #1d4ed8;
-  --color-primary-dark: #1e40af;
-  --color-danger: #b91c1c;
-  --color-warning: #b45309;
-  --color-success: #15803d;
+  --color-text: #1a1a1a; /* צבע טקסט רגיל – כמעט שחור, ניגודיות גבוהה */
+  --color-muted: #52525b; /* טקסט משני (אפור) */
+  --color-bg: #fafafa; /* רקע הדף */
+  --color-surface: #ffffff; /* רקע של כרטיסים ושדות */
+  --color-border: #d4d4d8; /* צבע מסגרות */
+  --color-primary: #1d4ed8; /* הצבע הראשי (כחול) – כפתורים וקישורים */
+  --color-primary-dark: #1e40af; /* כחול כהה יותר – כשעוברים עם העכבר */
+  --color-danger: #b91c1c; /* אדום – שגיאות ומחיקה */
+  --color-warning: #b45309; /* כתום – אזהרות */
+  --color-success: #15803d; /* ירוק – הצלחה */
 }
 
+/* * = כל האלמנטים. border-box: הרוחב כולל את הריפוד והמסגרת – קל יותר לחשב גדלים */
 * {
   box-sizing: border-box;
 }
 
+/* הגדרות בסיס לכל הדף */
 body {
-  margin: 0;
+  margin: 0; /* מבטל את השוליים שהדפדפן מוסיף כברירת מחדל */
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
+  font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif; /* גופן המערכת – נקרא היטב בעברית */
+  font-size: 16px; /* גודל טקסט בסיסי */
+  line-height: 1.6; /* ריווח שורות נוח לקריאה */
 }
 
+/* כותרות */
 h1,
 h2,
 h3 {
-  line-height: 1.25;
-  margin: 0 0 0.5em;
+  line-height: 1.25; /* ריווח צפוף יותר בכותרות */
+  margin: 0 0 0.5em; /* רווח רק מתחת לכותרת */
 }
 
 a {
-  color: var(--color-primary);
+  color: var(--color-primary); /* צבע קישורים */
 }
 
+/* מסגרת פוקוס בולטת כשמנווטים במקלדת (Tab). focus-visible לא מופיע בלחיצת עכבר */
 :focus-visible {
   outline: 3px solid var(--color-primary);
-  outline-offset: 2px;
+  outline-offset: 2px; /* רווח קטן בין המסגרת לאלמנט */
 }
 
+/* מיכל מרכזי לתוכן הדף */
 .container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 24px 16px;
+  max-width: 1100px; /* לא רחב מדי במסכים גדולים */
+  margin: 0 auto; /* auto בצדדים = ממורכז */
+  padding: 24px 16px; /* ריפוד: 24 למעלה ולמטה, 16 בצדדים */
 }
 
+/* מיכל צר – לטפסי הרשמה והתחברות */
 .narrow {
   max-width: 440px;
 }
 
+/* טקסט משני באפור */
 .muted {
   color: var(--color-muted);
 }
 
-/* Buttons */
+/* ── כפתורים ── */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
+  display: inline-flex; /* flex כדי למרכז את הטקסט */
+  align-items: center; /* מרכוז אנכי */
+  justify-content: center; /* מרכוז אופקי */
+  min-height: 44px; /* גובה מינימלי שנוח ללחוץ עליו גם בטלפון */
   padding: 8px 18px;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 8px; /* פינות מעוגלות */
   background: var(--color-surface);
   color: var(--color-text);
-  font: inherit;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
+  font: inherit; /* כפתורים לא יורשים גופן כברירת מחדל – כאן מכריחים */
+  font-weight: 600; /* מודגש למחצה */
+  text-decoration: none; /* בלי קו תחתון (כשה-btn הוא קישור) */
+  cursor: pointer; /* סמן "יד" */
 }
 
+/* מעבר עכבר – רק על כפתור שלא מושבת */
 .btn:hover:not(:disabled) {
   background: #f4f4f5;
 }
 
+/* כפתור מושבת (למשל בזמן שליחה) */
 .btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  opacity: 0.6; /* חצי שקוף */
+  cursor: not-allowed; /* סמן "אסור" */
 }
 
+/* כפתור ראשי – כחול */
 .btn-primary {
   background: var(--color-primary);
   border-color: var(--color-primary);
@@ -90,6 +104,7 @@ a {
   background: var(--color-primary-dark);
 }
 
+/* כפתור מסוכן (מחיקה / סיום) – אדום */
 .btn-danger {
   background: var(--color-danger);
   border-color: var(--color-danger);
@@ -100,11 +115,12 @@ a {
   background: #991b1b;
 }
 
-/* Forms */
+/* ── טפסים ── */
+/* שדה: תווית מעל, ואז השדה, הרמז והשגיאה – בעמודה */
 .field {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-direction: column; /* אחד מתחת לשני */
+  gap: 4px; /* רווח בין הפריטים */
   margin-bottom: 16px;
 }
 
@@ -113,6 +129,7 @@ a {
   font-weight: 600;
 }
 
+/* תיבות קלט, תיבות טקסט ורשימות בחירה */
 .field input,
 .field textarea,
 .field select {
@@ -123,25 +140,29 @@ a {
   background: var(--color-surface);
   color: inherit;
   font: inherit;
-  font-size: 16px;
+  font-size: 16px; /* 16px ומעלה – אחרת iPhone עושה זום אוטומטי כשנכנסים לשדה */
 }
 
+/* שדה עם שגיאה – מסגרת אדומה (לפי התכונה aria-invalid) */
 .field input[aria-invalid="true"] {
   border-color: var(--color-danger);
 }
 
+/* טקסט רמז מתחת לשדה */
 .hint {
   font-size: 14px;
   color: var(--color-muted);
 }
 
+/* הודעת שגיאה מתחת לשדה */
 .error {
   color: var(--color-danger);
   font-size: 15px;
   margin: 4px 0 0;
 }
 
-/* Messages */
+/* ── הודעות ── */
+/* תיבת הודעה בסיסית (אפורה) */
 .notice {
   padding: 10px 14px;
   border: 1px solid var(--color-border);
@@ -150,24 +171,28 @@ a {
   margin-bottom: 16px;
 }
 
+/* הודעת הצלחה – ירוקה */
 .notice-success {
   border-color: var(--color-success);
   background: #f0fdf4;
   color: var(--color-success);
 }
 
+/* הודעת שגיאה – אדומה */
 .notice-error {
   border-color: var(--color-danger);
   background: #fef2f2;
   color: var(--color-danger);
 }
 
+/* אזהרה – צהובה/כתומה (למשל "לא זוהו פנים") */
 .notice-warning {
   border-color: var(--color-warning);
   background: #fffbeb;
   color: #92400e;
 }
 
+/* כרטיס – קופסה לבנה עם מסגרת */
 .card {
   padding: 16px;
   border: 1px solid var(--color-border);
@@ -176,31 +201,31 @@ a {
   margin-bottom: 16px;
 }
 
-/* Site header */
+/* ── הסרגל העליון ── */
 .site-header {
   background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border); /* קו מפריד מתחת */
 }
 
 .site-header-inner {
-  display: flex;
-  flex-wrap: wrap;
+  display: flex; /* הפריטים בשורה */
+  flex-wrap: wrap; /* במסך צר – נשברים לשורה נוספת */
   align-items: center;
-  gap: 8px 20px;
+  gap: 8px 20px; /* 8 בין שורות, 20 בין פריטים */
   max-width: 1100px;
   margin: 0 auto;
   padding: 8px 16px;
 }
 
 .brand {
-  font-size: 18px;
+  font-size: 18px; /* שם האתר קצת גדול יותר */
 }
 
 .site-nav {
   display: flex;
   flex-wrap: wrap;
   gap: 4px 16px;
-  flex: 1;
+  flex: 1; /* תופס את כל המקום הפנוי, ודוחף את השם והכפתור לקצה */
 }
 
 .site-nav a {
@@ -208,9 +233,10 @@ a {
   color: var(--color-text);
   text-decoration: none;
   font-weight: 500;
-  border-bottom: 3px solid transparent;
+  border-bottom: 3px solid transparent; /* קו שקוף – שומר מקום, כדי שהקישור הפעיל לא "יקפוץ" */
 }
 
+/* הקישור של הדף הנוכחי (NavLink מוסיף class="active") – כחול עם קו תחתון */
 .site-nav a.active {
   color: var(--color-primary);
   border-bottom-color: var(--color-primary);
@@ -220,27 +246,29 @@ a {
   color: var(--color-muted);
 }
 
-/* Library */
+/* ── הספרייה ── */
+/* קבוצת הרדיו – בלי המסגרת שהדפדפן מוסיף ל-fieldset */
 .radio-group {
   border: 0;
   padding: 0;
 }
 
 .radio-group label {
-  display: inline-flex;
+  display: inline-flex; /* הכפתור והטקסט באותה שורה */
   align-items: center;
   gap: 8px;
-  min-height: 44px;
-  margin-inline-end: 20px;
+  min-height: 44px; /* אזור לחיצה נוח */
+  margin-inline-end: 20px; /* רווח בסוף (ב-RTL – משמאל); מתאים את עצמו לכיוון הדף */
   font-weight: 400;
 }
 
 .radio-group input {
-  min-height: 0;
+  min-height: 0; /* מבטל את ה-44px שהוגדר לשדות */
   width: 18px;
   height: 18px;
 }
 
+/* רשת הכרטיסים: כמה עמודות שנכנסות, כל אחת לפחות 280px */
 .content-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -250,45 +278,48 @@ a {
 .content-card {
   margin: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* כדי שהכפתורים יידחפו לתחתית (ראו .button-row) */
 }
 
 .content-card h3 {
   margin-top: 12px;
-  overflow-wrap: anywhere;
+  overflow-wrap: anywhere; /* כותרת ארוכה בלי רווחים תישבר ולא תחרוג מהכרטיס */
 }
 
+/* התמונה הממוזערת (או תיבת הטקסט במקומה) */
 .content-thumb {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  aspect-ratio: 16 / 9; /* יחס גובה-רוחב של סרטון */
+  object-fit: cover; /* התמונה ממלאת את המסגרת בלי להימתח */
   border-radius: 8px;
   background: #e4e4e7;
 }
 
+/* תצוגת התחלת הטקסט במקום תמונה */
 .content-thumb-text {
   padding: 12px;
-  overflow: hidden;
+  overflow: hidden; /* טקסט עודף מוסתר */
   font-size: 14px;
   color: var(--color-muted);
 }
 
+/* שורת כפתורים */
 .button-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: auto;
+  margin-top: auto; /* בתוך כרטיס flex – דוחף את השורה לתחתית */
 }
 
-/* Camera and score */
+/* ── מצלמה וציון ── */
 .camera-preview {
   display: block;
   width: 100%;
-  max-width: 240px;
+  max-width: 240px; /* תצוגה מקדימה קטנה */
   border-radius: 8px;
   background: #18181b;
-  transform: scaleX(-1); /* looks like a mirror; the model gets the real frames */
+  transform: scaleX(-1); /* היפוך אופקי – נראה כמו מראה; המודל מקבל את הפריימים האמיתיים */
   margin-bottom: 12px;
 }
 
@@ -301,6 +332,7 @@ a {
   margin-top: 8px;
 }
 
+/* המספר הגדול של הציון */
 .score-value {
   font-size: 44px;
   font-weight: 700;
@@ -308,37 +340,42 @@ a {
   margin: 0 0 8px;
 }
 
+/* המילה שליד המספר ("קשוב" וכו') */
 .score-word {
   font-size: 20px;
   font-weight: 600;
 }
 
+/* פס הציון – הרקע האפור */
 .score-bar {
   height: 10px;
   border-radius: 5px;
   background: #e4e4e7;
-  overflow: hidden;
+  overflow: hidden; /* החלק הצבעוני לא יחרוג מהפינות המעוגלות */
   margin-bottom: 8px;
-  direction: ltr;
+  direction: ltr; /* הפס מתמלא משמאל לימין גם בדף RTL */
 }
 
+/* החלק הצבעוני של הפס */
 .score-bar-fill {
   height: 100%;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease; /* שינוי רוחב באנימציה חלקה */
 }
 
+/* הגרף הקטן של הציונים האחרונים */
 .sparkline {
   display: block;
   width: 100%;
   max-width: 240px;
   height: 40px;
   margin-top: 8px;
-  direction: ltr;
+  direction: ltr; /* הזמן מתקדם משמאל לימין */
 }
 
-/* Viewers */
+/* ── נגנים ── */
+/* מסגרת הסרטון: 16:9, והנגן ממלא אותה */
 .video-frame {
-  position: relative;
+  position: relative; /* כדי שהילדים עם position: absolute ימוקמו ביחס אליה */
   width: 100%;
   aspect-ratio: 16 / 9;
   border-radius: 8px;
@@ -346,21 +383,23 @@ a {
   background: #18181b;
 }
 
+/* הנגן (ה-iframe) ממלא את כל המסגרת */
 .video-host,
 .video-host iframe {
   position: absolute;
-  inset: 0;
+  inset: 0; /* top/right/bottom/left = 0 */
   width: 100%;
   height: 100%;
   border: 0;
 }
 
+/* הודעה מעל הנגן ("טוען..." / שגיאה) */
 .video-message {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* ממורכז אנכית */
+  justify-content: center; /* ממורכז אופקית */
   margin: 0;
   padding: 16px;
   text-align: center;
@@ -368,10 +407,12 @@ a {
   background: #18181b;
 }
 
+/* תצוגת הטקסט – רוחב נוח לקריאה */
 .text-reader {
-  max-width: 70ch;
+  max-width: 70ch; /* ch = רוחב תו; כ-70 תווים בשורה */
 }
 
+/* פס התקדמות הקריאה */
 .reading-progress {
   height: 6px;
   border-radius: 3px;
@@ -385,44 +426,48 @@ a {
   background: var(--color-primary);
 }
 
+/* הפאנל הנגלל של הטקסט */
 .text-panel {
-  max-height: 70vh;
-  overflow-y: auto;
+  max-height: 70vh; /* לכל היותר 70% מגובה החלון; השאר בגלילה */
+  overflow-y: auto; /* פס גלילה אנכי כשצריך */
   padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background: var(--color-surface);
-  font-size: 18px;
+  font-size: 18px; /* טקסט גדול לקריאה */
   line-height: 1.8;
   overflow-wrap: anywhere;
 }
 
-/* Watch page */
+/* ── דף הצפייה ── */
 .watch-title {
   overflow-wrap: anywhere;
 }
 
+/* שתי עמודות: התוכן (2 חלקים) והפאנל (חלק אחד, לפחות 280px) */
 .watch-layout {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
   gap: 20px;
-  align-items: start;
+  align-items: start; /* כל עמודה בגובה התוכן שלה */
 }
 
+/* מסך צר מ-900px: עמודה אחת – התוכן מעל הפאנל */
 @media (max-width: 899px) {
   .watch-layout {
     grid-template-columns: minmax(0, 1fr);
   }
 }
 
-/* Tables and chart */
+/* ── טבלאות וגרף ── */
+/* טבלה רחבה נגללת הצידה בתוך המיכל, במקום לגרום לגלילה של כל הדף */
 .table-wrap {
   overflow-x: auto;
 }
 
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: collapse; /* מסגרות התאים מתמזגות לקו אחד */
   background: var(--color-surface);
 }
 
@@ -430,35 +475,38 @@ th,
 td {
   padding: 10px 12px;
   border-bottom: 1px solid var(--color-border);
-  text-align: start;
+  text-align: start; /* יישור לתחילת השורה (ב-RTL – ימין) */
 }
 
 th {
   font-weight: 600;
-  white-space: nowrap;
+  white-space: nowrap; /* כותרות עמודה לא נשברות */
 }
 
 .cell-title {
   overflow-wrap: anywhere;
 }
 
+/* מוסתר מהעין אבל קוראי מסך עדיין מקריאים אותו (display: none היה מסתיר גם מהם) */
 .visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
   overflow: hidden;
-  clip-path: inset(50%);
+  clip-path: inset(50%); /* חותך את כל האלמנט */
   white-space: nowrap;
 }
 
+/* גרף הציון בדף פרטי הסשן */
 .score-chart {
   display: block;
   width: 100%;
   max-width: 640px;
-  direction: ltr;
+  direction: ltr; /* צירים ומספרים משמאל לימין */
 }
 
-/* Profile */
+/* ── פרופיל ── */
+/* "אזור מסוכן" של מחיקת החשבון – מסגרת אדומה עבה */
 .danger-zone {
   border: 2px solid var(--color-danger);
 }

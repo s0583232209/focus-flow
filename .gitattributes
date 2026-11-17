@@ -1,10 +1,13 @@
+# איך גיט מטפל בסופי שורות ובקבצים בינאריים.
+# קבצי טקסט: גיט מזהה לבד ושומר אותם בריפו עם LF
 * text=auto
-# Shell scripts and the nginx config run inside Linux containers: always LF.
+# סקריפטים והגדרות nginx רצים בתוך קונטיינרים של לינוקס: תמיד LF (תו CR מ-Windows שובר אותם)
 *.sh text eol=lf
 *.conf text eol=lf
-# Env files: a stray CR would become part of a value.
+# קבצי env: תו CR היה הופך לחלק מהערך
 .env.example text eol=lf
 .env.template text eol=lf
+# קבצים בינאריים – גיט לא נוגע בהם ולא מנסה להציג הבדלים
 *.onnx binary
 *.task binary
 *.pdf binary

@@ -1,11 +1,13 @@
-fastapi==0.115.5
-uvicorn[standard]==0.32.1
-pymongo[srv]==4.13.2
-pydantic==2.10.3
-pydantic-settings==2.6.1
-email-validator==2.2.0
-bcrypt==4.2.1
-PyJWT==2.10.1
-pytest==8.3.4
-pytest-asyncio==0.24.0
-httpx==0.28.0
+# רשימת הספריות של השרת. pip install -r requirements.txt מתקין את כולן.
+# הגרסאות נעולות (==) כדי שכל מחשב ותמונת Docker יקבלו בדיוק אותן גרסאות.
+fastapi==0.115.5  # מסגרת ה-API
+uvicorn[standard]==0.32.1  # השרת שמריץ את אפליקציית FastAPI
+pymongo[srv]==4.13.2  # הדרייבר של MongoDB; [srv] נחוץ לכתובות mongodb+srv:// של Atlas בענן
+pydantic==2.10.3  # בדיקת נתונים וסכמות
+pydantic-settings==2.6.1  # קריאת הגדרות ממשתני סביבה
+email-validator==2.2.0  # בדיקת פורמט אימייל (EmailStr)
+bcrypt==4.2.1  # הצפנת סיסמאות
+PyJWT==2.10.1  # יצירה ובדיקה של טוקני JWT
+pytest==8.3.4  # הרצת טסטים
+pytest-asyncio==0.24.0  # תמיכה בטסטים אסינכרוניים
+httpx==0.28.0  # לקוח HTTP – בטסטים שולחים איתו בקשות לאפליקציה

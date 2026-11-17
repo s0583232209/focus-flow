@@ -1,16 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { listSessions } from "../api/client.js";
-import { scoreLevel } from "../components/ScoreLevel.js";
-import { formatDateTime, formatDuration } from "../components/format.js";
+// דף היסטוריית הסשנים: טבלה של כל הסשנים של המשתמש, מהחדש לישן.
+import { useCallback, useEffect, useState } from "react"; // hooks של React
+import { Link } from "react-router-dom"; // קישור פנימי
+import { listSessions } from "../api/client.js"; // קריאה לשרת
+import { scoreLevel } from "../components/ScoreLevel.js"; // מילה וצבע לציון
+import { formatDateTime, formatDuration } from "../components/format.js"; // עיצוב תאריך ומשך
 
 export default function History() {
-  const [sessions, setSessions] = useState(null);
-  const [error, setError] = useState("");
+  const [sessions, setSessions] = useState(null); // null = עוד טוען; מערך = נטען
+  const [error, setError] = useState(""); // הודעת שגיאה
 
+  // טעינת הרשימה (משמשת גם לכפתור "נסו שוב")
   const load = useCallback(async () => {
     setError("");
-    setSessions(null);
+    setSessions(null); // חוזרים למצב "טוען"
     try {
       setSessions(await listSessions());
     } catch (cause) {
@@ -19,12 +21,13 @@ export default function History() {
   }, []);
 
   useEffect(() => {
-    load();
+    load(); // טוענים כשהדף נפתח
   }, [load]);
 
   return (
     <main className="container">
       <h1>היסטוריית סשנים</h1>
+      {/* מצב שגיאה עם אפשרות לנסות שוב */}
       {error && (
         <div className="notice notice-error" role="alert">
           <p>{error}</p>
@@ -33,24 +36,30 @@ export default function History() {
           </button>
         </div>
       )}
+      {/* מצב טעינה */}
       {!error && sessions === null && <p>טוען את ההיסטוריה...</p>}
+      {/* מצב ריק. ?. – אם sessions הוא null הביטוי פשוט undefined */}
       {sessions?.length === 0 && <p>עדיין אין סשנים. פתחו פריט מהספרייה והתחילו סשן.</p>}
+      {/* הטבלה */}
       {sessions?.length > 0 && (
         <div className="table-wrap">
           <table>
             <thead>
               <tr>
+                {/* scope="col" – מסמן לקוראי מסך שזו כותרת של עמודה */}
                 <th scope="col">תאריך</th>
                 <th scope="col">תוכן</th>
                 <th scope="col">משך</th>
                 <th scope="col">מדידות</th>
                 <th scope="col">ציון ממוצע</th>
                 <th scope="col">
+                  {/* כותרת שמוסתרת מהעין אבל נקראת על ידי קוראי מסך */}
                   <span className="visually-hidden">פרטים</span>
                 </th>
               </tr>
             </thead>
             <tbody>
+              {/* שורה לכל סשן */}
               {sessions.map((session) => {
                 const level = scoreLevel(session.average_score);
                 return (
@@ -58,12 +67,14 @@ export default function History() {
                     <td>{formatDateTime(session.started_at)}</td>
                     <td className="cell-title">{session.content_title}</td>
                     <td>
+                      {/* משך רק לסשן שהסתיים */}
                       {session.ended_at
                         ? formatDuration(session.started_at, session.ended_at)
                         : "לא הסתיים"}
                     </td>
                     <td>{session.reading_count}</td>
                     <td style={{ color: level.colorVar }}>
+                      {/* בלי מדידות – רק "אין מדידות"; אחרת המספר והמילה */}
                       {session.average_score === null
                         ? level.label
                         : `${session.average_score.toFixed(2)} ${level.label}`}
