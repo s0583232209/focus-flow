@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+// דף "הדף לא נמצא" – מוצג לכל כתובת שלא קיימת באתר.
+import { Link } from "react-router-dom"; // קישור פנימי (בלי טעינה מחדש של הדף)
 
 export default function NotFound() {
   return (

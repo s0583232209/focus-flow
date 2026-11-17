@@ -1,27 +1,41 @@
+# Compose לפיתוח: בונה את התמונות מהקוד המקומי ומריץ את שלושת השירותים.
+# הרצה: docker compose -f docker-compose.dev.yml up --build
 services:
+  # ── מסד הנתונים ──
   mongodb:
+    # תמונה רשמית של MongoDB גרסה 7
     image: mongo:7
     ports:
-      # Localhost only, so pytest can run from the host.
-      # Set MONGO_HOST_PORT if 27017 is already taken on your machine.
+      # פתוח רק ל-localhost (127.0.0.1), כדי ש-pytest יוכל לרוץ מהמחשב – ולא לכל הרשת.
+      # אם 27017 כבר תפוס במחשב, מגדירים MONGO_HOST_PORT לפורט אחר
       - "127.0.0.1:${MONGO_HOST_PORT:-27017}:27017"
     volumes:
+      # volume בשם mongo_data שומר את הנתונים גם אחרי down/up
       - mongo_data:/data/db
+    # בדיקת תקינות: Docker מריץ ping למסד כל 10 שניות
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
       interval: 10s
       timeout: 5s
+      # אחרי 5 כישלונות ברצף – השירות מסומן unhealthy
       retries: 5
+      # זמן חסד בעלייה, שבו כישלונות לא נספרים
       start_period: 10s
 
+  # ── השרת ──
   backend:
+    # בונה מ-backend/Dockerfile
     build: ./backend
     ports:
+      # פורט 8000 במחשב → פורט 8000 בקונטיינר
       - "8000:8000"
+    # כל משתני הסביבה (MONGO_URL, JWT_SECRET...) מהקובץ .env
     env_file: .env
     depends_on:
       mongodb:
+        # מחכים שהמסד יהיה תקין (ולא רק "עלה") לפני שמפעילים את השרת
         condition: service_healthy
+    # בדיקת תקינות: פנייה ל-/health מתוך הקונטיינר (בפייתון, כי אין curl בתמונה)
     healthcheck:
       test:
         - CMD
@@ -33,14 +47,18 @@ services:
       retries: 5
       start_period: 10s
 
+  # ── הלקוח ──
   frontend:
+    # בונה מ-frontend/Dockerfile
     build: ./frontend
     ports:
       - "3000:3000"
     environment:
+      # docker-entrypoint.sh כותב את הערך הזה ל-config.js
       API_URL: ${API_URL}
     depends_on:
       - backend
 
+# הגדרת ה-volume (Docker מנהל איפה הוא נשמר)
 volumes:
   mongo_data:

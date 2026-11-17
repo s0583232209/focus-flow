@@ -1,15 +1,18 @@
-import { useRef, useState } from "react";
-import CameraPanel from "../components/CameraPanel.jsx";
-import LowFocusAlert from "../components/LowFocusAlert.jsx";
-import ScoreBadge from "../components/ScoreBadge.jsx";
-import TextReader from "../components/TextReader.jsx";
-import YouTubePlayer from "../components/YouTubePlayer.jsx";
+// דף ניסוי לפיתוח בלבד (/lab): בודק את המדידה ואת הנגנים בלי שרת. לא נכנס לבנייה לייצור.
+import { useRef, useState } from "react"; // hooks של React
+import CameraPanel from "../components/CameraPanel.jsx"; // פאנל המצלמה
+import LowFocusAlert from "../components/LowFocusAlert.jsx"; // התראת קשב נמוך
+import ScoreBadge from "../components/ScoreBadge.jsx"; // תצוגת הציון
+import TextReader from "../components/TextReader.jsx"; // תצוגת טקסט
+import YouTubePlayer from "../components/YouTubePlayer.jsx"; // נגן YouTube
 
+// טקסט דוגמה ארוך: 40 פסקאות, מופרדות בשורה ריקה. התגית <b> בודקת שהטקסט מוצג כטקסט ולא כ-HTML
 const SAMPLE_TEXT = Array.from(
-  { length: 40 },
+  { length: 40 }, // יוצר מערך באורך 40
   (_, index) => `פסקה ${index + 1}. <b>תג</b> שמוצג כטקסט רגיל, כדי לבדוק גלילה ומיקום בקריאה.`,
 ).join("\n\n");
 
+// כפתורי בדיקה לנגן: הצגת המיקום הנוכחי וחזרה 15 שניות
 function ViewerControls({ viewerRef }) {
   const [position, setPosition] = useState(null);
   return (
@@ -29,13 +32,12 @@ function ViewerControls({ viewerRef }) {
   );
 }
 
-// Dev-only page: tests the measurement and the viewers with no server. Not in the production build.
 export default function Lab() {
-  const [sessionActive, setSessionActive] = useState(true);
-  const [scores, setScores] = useState([]);
-  const lastScore = scores.length > 0 ? scores[scores.length - 1] : null;
-  const videoRef = useRef(null);
-  const textRef = useRef(null);
+  const [sessionActive, setSessionActive] = useState(true); // מדמה "סשן פעיל"
+  const [scores, setScores] = useState([]); // כל הציונים שהתקבלו
+  const lastScore = scores.length > 0 ? scores[scores.length - 1] : null; // הציון האחרון
+  const videoRef = useRef(null); // ref לנגן הסרטון
+  const textRef = useRef(null); // ref לתצוגת הטקסט
 
   return (
     <main className="container">
@@ -50,11 +52,12 @@ export default function Lab() {
           סשן פעיל (onScore נקרא רק כשמסומן)
         </label>
       </p>
+      {/* כל ציון מודפס לקונסול ונוסף לרשימה */}
       <CameraPanel
         sessionActive={sessionActive}
         onScore={(score) => {
           console.log("score", score.toFixed(3));
-          setScores((current) => [...current, score]);
+          setScores((current) => [...current, score]); // מערך חדש עם הציון בסוף
         }}
       />
       <ScoreBadge score={lastScore} history={scores} />

@@ -7,28 +7,37 @@
 # On a NetFree machine:
 #   CA_BUNDLE=/c/ProgramData/NetFree/CA/netfree-ca-bundle-curl.crt \
 #   CA_LIST=/c/ProgramData/NetFree/CA/netfree-ca-list.crt scripts/local-ca-base-images.sh
-set -euo pipefail
+#
+# רק למחשב מאחורי סינון שמפענח TLS (כמו נטפרי). הסינון מחליף את תעודות האבטחה של אתרים,
+# ולכן pip ו-npm בתוך בניית התמונה נכשלים. הסקריפט בונה תמונות בסיס מקומיות שסומכות על
+# תעודות הסינון. הוא לא משנה את ה-Dockerfiles ולא מעלה כלום ל-Docker Hub.
 
-: "${CA_BUNDLE:?Set CA_BUNDLE to a file with all trusted CAs}"
-CA_LIST="${CA_LIST:-$CA_BUNDLE}"
+set -euo pipefail  # עצירה בכל שגיאה
 
-build_dir="$(mktemp -d)"
-trap 'rm -rf "$build_dir"' EXIT
-cp "$CA_BUNDLE" "$build_dir/bundle.pem"
+: "${CA_BUNDLE:?Set CA_BUNDLE to a file with all trusted CAs}"  # חובה: קובץ עם כל התעודות
+CA_LIST="${CA_LIST:-$CA_BUNDLE}"  # אם לא הוגדר – אותו קובץ
+
+build_dir="$(mktemp -d)"  # תיקייה זמנית לבנייה
+trap 'rm -rf "$build_dir"' EXIT  # trap: כשהסקריפט נגמר (גם בשגיאה) – מוחקים את התיקייה
+cp "$CA_BUNDLE" "$build_dir/bundle.pem"  # מעתיקים את התעודות לתיקיית הבנייה
 cp "$CA_LIST" "$build_dir/list.pem"
 
+# תמונת פייתון שבה pip משתמש בקובץ התעודות שלנו. ה-Dockerfile מועבר דרך stdin (-f -)
 docker build -q -t ff-local/python-ca:3.12 -f - "$build_dir" <<'EOF'
 FROM python:3.12-slim
 COPY bundle.pem /etc/ff-ca-bundle.pem
 ENV PIP_CERT=/etc/ff-ca-bundle.pem
 EOF
 
+# תמונת Node שבה npm סומך גם על תעודות הסינון (NODE_EXTRA_CA_CERTS מוסיף, לא מחליף)
 docker build -q -t ff-local/node-ca:20 -f - "$build_dir" <<'EOF'
 FROM node:20-alpine
 COPY list.pem /etc/ff-ca-list.pem
 ENV NODE_EXTRA_CA_CERTS=/etc/ff-ca-list.pem
 EOF
 
+# הדפסת הוראות: קובץ compose אישי שגורם לבנייה להשתמש בתמונות הבסיס המקומיות
+# (additional_contexts מחליף את "FROM python:3.12-slim" בתמונה שלנו בלי לגעת ב-Dockerfile)
 cat <<'EOF'
 Done. To build with them, save this as docker-compose.local.yml (git ignores it):
 

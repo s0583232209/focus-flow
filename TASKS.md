@@ -134,9 +134,9 @@ mq()   { docker compose -f docker-compose.dev.yml exec -T mongodb mongosh focusf
 - [ ] מעתיקים `v4_2.onnx` (ו-`v1.onnx` לגיבוי) ל-`frontend/public/models/`, ומורידים מאתר MediaPipe את `face_landmarker.task` (Face Landmarker, float16) לאותה תיקייה
 
 **הגדרת סיום:**
-- [ ] שלושת קבצי המודל בריפו, בגודל אמיתי (לא 0 בתים)
-- [ ] חומרי המטלה נמצאים ב-`docs/assignment/`
-- [ ] ב-`docs/REQUIREMENTS.md` לכל דרישה יש משימה, ואין `MISSING`
+- [ V] שלושת קבצי המודל בריפו, בגודל אמיתי (לא 0 בתים)
+- [ V] חומרי המטלה נמצאים ב-`docs/assignment/`
+- [ V] ב-`docs/REQUIREMENTS.md` לכל דרישה יש משימה, ואין `MISSING`
 
 **איך בודקים שהמשימה בוצעה נכון** (בנוסף לבדיקות R1–R6):
 ```bash
@@ -145,10 +145,10 @@ du -h frontend/public/models/*                # each well below GitHub's 100 MB 
 git ls-files frontend/public/models docs/assignment
 grep -c "MISSING" docs/REQUIREMENTS.md        # 0 (after the missing tasks were added to TASKS.md)
 ```
-- [ ] הבודק בוחר 5 דרישות אקראיות מההנחיות ומוצא כל אחת ב-`REQUIREMENTS.md` עם המשימה הנכונה
-- [ ] כל שורות טבלת הניקוד מההנחיות מופיעות, וסכום הנקודות של הבסיס הוא 100
-- [ ] כללי ההגשה (שמות קבצים, מבנה ה-zip, פורמט ה-JSON, מועדים) מופיעים כשורות נפרדות
-- [ ] לכל שורה שהייתה `MISSING` נוספה משימה ל-TASKS.md (PR נפרד), והשורה עודכנה
+- [ V] הבודק בוחר 5 דרישות אקראיות מההנחיות ומוצא כל אחת ב-`REQUIREMENTS.md` עם המשימה הנכונה
+- [V ] כל שורות טבלת הניקוד מההנחיות מופיעות, וסכום הנקודות של הבסיס הוא 100
+- [ V] כללי ההגשה (שמות קבצים, מבנה ה-zip, פורמט ה-JSON, מועדים) מופיעים כשורות נפרדות
+- [ V] לכל שורה שהייתה `MISSING` נוספה משימה ל-TASKS.md (PR נפרד), והשורה עודכנה
 
 **פרומפט:**
 ```
@@ -166,9 +166,9 @@ When done: run the checks from GIT_WORKFLOW.md, commit in small logical commits 
 **הסבר מראש הצוות:** זה הבסיס של כל השאר. הכי חשוב כאן הוא `.gitignore` – אם `.env` נכנס פעם אחת לגיטהאב, צריך להחליף את כל הסודות. גם `.env.example` חשוב: הוא מתעד לכל אחד אילו משתנים קיימים, בלי ערכים אמיתיים. את קבצי המודל (`v4_2.onnx`, `face_landmarker.task`) מכניסים כבר עכשיו ל-`frontend/public/models/`, כדי שלא ילכו לאיבוד. (בפועל זה עבר ל-T00, יחד עם שאר חומרי המטלה.)
 
 **הגדרת סיום:**
-- [ ] `git status` אחרי יצירת `.env` מקומי לא מציג אותו
-- [ ] המבנה תואם לתיקיות במסמך התכנון
-- [ ] הריפו ב-GitHub פרטי, וכל חברי הצוות הוזמנו
+- [V ] `git status` אחרי יצירת `.env` מקומי לא מציג אותו
+- [V ] המבנה תואם לתיקיות במסמך התכנון
+- [V ] הריפו ב-GitHub פרטי, וכל חברי הצוות הוזמנו
 
 **איך בודקים שהמשימה בוצעה נכון** (✅ מוזג ב-PR #1; קבצי המודל עברו ל-T00):
 ```bash
@@ -178,8 +178,8 @@ git check-ignore -v .env .env.local submission/assignment3.zip node_modules/x gc
 git ls-files .env.example                          # tracked
 ls backend/app backend/tests frontend/public/models scripts/gcp submission docs
 ```
-- [ ] GitHub → Settings → General: הריפו **Private**; Settings → Collaborators: כל חברי הצוות הוזמנו ואישרו
-- [ ] `.env.example` מכיל רק placeholders
+- [V ] GitHub → Settings → General: הריפו **Private**; Settings → Collaborators: כל חברי הצוות הוזמנו ואישרו
+- [ V] `.env.example` מכיל רק placeholders
 
 **פרומפט:**
 ```

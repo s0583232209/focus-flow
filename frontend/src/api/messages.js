@@ -1,5 +1,7 @@
-// The server answers in English (it is an API). The UI is Hebrew, so every message
-// we know gets a Hebrew text here. Unknown messages are shown as they arrived.
+// השרת עונה באנגלית (זה API). הממשק בעברית, ולכן לכל הודעה מוכרת יש כאן תרגום.
+// הודעה לא מוכרת מוצגת כמו שהגיעה.
+
+// תרגום מדויק: הודעת השרת (מפתח) → הטקסט בעברית (ערך)
 const EXACT = {
   "Email already registered": "האימייל הזה כבר רשום. אפשר להתחבר.",
   "Incorrect email or password": "אימייל או סיסמה שגויים",
@@ -15,6 +17,7 @@ const EXACT = {
   "database unavailable": "השרת לא זמין כרגע. נסו שוב בעוד רגע.",
 };
 
+// שגיאות אימות מהשרת נראות כמו "email: value is not a valid email". לפי שם השדה בוחרים הודעה ברורה
 const FIELD_NAMES = {
   email: "כתובת האימייל לא תקינה",
   password: "הסיסמה לא תקינה",
@@ -25,10 +28,10 @@ const FIELD_NAMES = {
 };
 
 export function translateMessage(message) {
-  if (!message) return "אירעה שגיאה. נסו שוב.";
-  if (EXACT[message]) return EXACT[message];
-  if (message.startsWith("Text must be")) return "הטקסט צריך להיות באורך 20 עד 100,000 תווים";
-  // Validation errors look like "field: reason".
+  if (!message) return "אירעה שגיאה. נסו שוב."; // אין הודעה בכלל – הודעה כללית
+  if (EXACT[message]) return EXACT[message]; // יש תרגום מדויק
+  if (message.startsWith("Text must be")) return "הטקסט צריך להיות באורך 20 עד 100,000 תווים"; // הודעה עם מספרים משתנים
+  // שגיאות אימות בפורמט "שדה: סיבה" – לוקחים את מה שלפני הנקודתיים
   const field = message.split(":")[0];
-  return FIELD_NAMES[field] ?? message;
+  return FIELD_NAMES[field] ?? message; // אם השדה מוכר – ההודעה בעברית; אחרת ההודעה המקורית (הודעות הסיסמה כבר בעברית)
 }
