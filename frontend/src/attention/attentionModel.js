@@ -9,13 +9,10 @@ ort.env.wasm.numThreads = 1;
 let sessionPromise = null; // המודל הטעון (כ-Promise), משותף לכל הדף
 
 // נטען פעם אחת ומשותף לכל מי שצריך אותו
-export function loadModel(url = "/models/v4_2.onnx") {
+export function loadModel(url = "/models/v1.onnx") {
   if (!sessionPromise) { // רק אם עוד לא התחלנו לטעון
     sessionPromise = ort.InferenceSession.create(url, { executionProviders: ["wasm"] }) // טעינת המודל
       .then((session) => {
-        if (import.meta.env.DEV) { // רק בפיתוח: מדפיסים את שמות הקלט והפלט של המודל
-          console.info("attention model", session.inputNames, session.outputNames);
-        }
         return session;
       })
       .catch((error) => {
