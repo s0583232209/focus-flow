@@ -16,7 +16,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # עכשיו מעתיקים את קוד האפליקציה (בלי טסטים ובלי .env – ראו .dockerignore)
-COPY app/ ./app/
+COPY backend/app/ ./app/
 
 # מכאן והלאה הקונטיינר רץ כמשתמש הרגיל
 USER appuser
